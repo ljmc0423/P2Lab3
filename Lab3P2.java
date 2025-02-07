@@ -58,4 +58,14 @@ public class Lab3P2 extends SudokuPadre{
  
         }
     }
+    public static void main(String[] args) {
+ 
+        SudokuPadre sudoku=new Lab3P2();
+        int[][] tablero=new int[9][9];
+        int[][] solucion=new int[9][9];
+        sudoku.llenarTablero(tablero);
+        sudoku.llenarSolucion(solucion);
+        sudoku sudokuGame=new sudoku(tablero,solucion);
+ 
+    }
 }

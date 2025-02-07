@@ -2,8 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package lab3p2;
-
+package Lab3P2;
+ 
 /**
  *
  * @author ljmc2
@@ -14,8 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 public class sudoku {
     private JFrame frame;
@@ -74,6 +72,51 @@ public class sudoku {
                 panel.add(cells[i][j]);
             }
         }
-        
+
+        JButton checkButton = new JButton("Verificar");
+        checkButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkSolution();
+            }
+        });
+
+        frame.add(panel, BorderLayout.CENTER);
+        frame.add(checkButton, BorderLayout.SOUTH);
+        frame.setVisible(true);
+    }
+
+    private void checkSolution() {
+        boolean hasErrors = false;
+        StringBuilder errorMessage = new StringBuilder();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                try {
+                    int value = Integer.parseInt(cells[i][j].getText());
+                    if (value != solution[i][j]) {
+                        errorMessage.append("Número incorrecto en la casilla (").append(i + 1).append(", ").append(j + 1).append(").\n");
+                        cells[i][j].setText(""); // Borra el número incorrecto
+                        hasErrors = true;
+                    } else {
+                        cells[i][j].setEditable(false);
+                    }
+                } catch (NumberFormatException ex) {
+                    // Ignorar si está vacío
+                }
+            }
+        }
+
+        if (hasErrors) {
+            JOptionPane.showMessageDialog(frame, errorMessage.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(frame, "¡Felicidades! Has completado correctamente!", null, JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public static void main(String[] args) {
+        int[][] board = new int[9][9]; // Your Sudoku board
+        int[][] solution = new int[9][9]; // Solution
+        new sudoku(board, solution);
     }
 }
